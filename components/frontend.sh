@@ -4,7 +4,7 @@ source components/common.sh
 checkRootUser
 
 
-echo Installing Nginx
+echo "Installing Nginx"
 yum install nginx -y >/tmp/roboshop.log
 
 echo "Downloading Frontend Code"
