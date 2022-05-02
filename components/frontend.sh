@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-USER_ID=$(id -u)
+source components/common.sh
 
-if [ "$USER_ID" -ne "0" ]; then
-  echo You are suppose to be running this script as sudo or root user
-else
+checkRootUser
+
 
 yum install nginx -y
 systemctl enable nginx
@@ -17,4 +16,4 @@ mv static/* .
 rm -rf frontend-main README.md
 mv localhost.conf /etc/nginx/default.d/roboshop.conf
 systemctl restart nginx
-fi
+
