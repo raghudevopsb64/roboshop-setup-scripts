@@ -23,9 +23,7 @@ unzip /tmp/frontend.zip &>>${LOG_FILE}
 statusCheck $?
 
 ECHO "Copying extracted Content"
-mv frontend-main/* . &>>${LOG_FILE}
-mv static/* . &>>${LOG_FILE}
-rm -rf frontend-main README.md &>>${LOG_FILE}
+mv frontend-main/* . &>>${LOG_FILE} && mv static/* . &>>${LOG_FILE} && rm -rf frontend-main README.md &>>${LOG_FILE}
 statusCheck $?
 
 ECHO "Copy RoboShop Nginx Config"
@@ -33,7 +31,6 @@ mv localhost.conf /etc/nginx/default.d/roboshop.conf &>>${LOG_FILE}
 statusCheck $?
 
 ECHO "Start Nginx Service"
-systemctl enable nginx &>>${LOG_FILE}
-systemctl restart nginx &>>${LOG_FILE}
+systemctl enable nginx &>>${LOG_FILE} && systemctl restart nginx &>>${LOG_FILE}
 statusCheck $?
 
