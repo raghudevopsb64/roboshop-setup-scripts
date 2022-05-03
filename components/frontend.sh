@@ -5,7 +5,7 @@ checkRootUser
 
 
 ECHO "Installing Nginx"
-yum install nginx -y >>${LOG_FILE}
+yumm install nginx -y >>${LOG_FILE}
 statusCheck $?
 
 ECHO "Downloading Frontend Code"
