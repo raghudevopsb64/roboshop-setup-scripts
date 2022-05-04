@@ -19,7 +19,7 @@ aws ec2 run-instances --image-id ${AMI_ID} --instance-type t3.micro --instance-m
 echo EC2 Instance Created
 
 sleep 10
-INSTANCE_ID=$(aws ec2 describe-spot-instance-requests --filters Name=tag:Name,Values=cart Name=state,Values=active --output table | grep InstanceId | awk '{print $4}')
+INSTANCE_ID=$(aws ec2 describe-spot-instance-requests --filters Name=tag:Name,Values=${NAME} Name=state,Values=active --output table | grep InstanceId | awk '{print $4}')
 
 IPADDRESS=$(aws ec2 describe-instances  --instance-ids ${INSTANCE_ID}  --output table | grep PrivateIpAddress | head -n 1 | awk '{print $4}')
 
