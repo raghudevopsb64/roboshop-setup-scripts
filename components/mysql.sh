@@ -42,8 +42,12 @@ if [ $? -eq 0 ]; then
   statusCheck $?
 fi
 
+ECHO "Download Schema"
+cd /tmp
+curl -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip" &>>$LOG_FILE && unzip -o  /tmp/mysql.zip &>>$LOG_FILE
+statusCheck $?
 
-
-
-
-
+ECHO "Load Schema"
+cd /tmp/mysql-main
+mysql -u root -pRoboShop@1 <shipping.sql &>>${LOG_FILE}
+statusCheck $?
