@@ -21,3 +21,10 @@ payment:
 
 shipping:
 	@bash components/shipping.sh
+
+mysql:
+	@bash components/mysql.sh
+
+rabbitmq:
+	@bash components/rabbitmq.sh
+
