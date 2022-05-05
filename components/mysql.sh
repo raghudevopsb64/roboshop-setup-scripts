@@ -3,13 +3,7 @@
 source components/common.sh
 checkRootUser
 
-# curl -s -L -o /etc/yum.repos.d/mysql.repo https://raw.githubusercontent.com/roboshop-devops-project/mysql/main/mysql.repo
-# yum install mysql-community-server -y
-# systemctl enable mysqld
-# systemctl start mysqld
-# grep temp /var/log/mysqld.log
 
-# mysql_secure_installation
 # mysql -uroot -pRoboShop@1
 #uninstall plugin validate_password;
 # curl -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip"
@@ -40,6 +34,10 @@ if [ $? -ne 0 ]; then
   mysql --connect-expired-password -u root -p${DEFAULT_PASSWORD} </tmp/root-pass.sql &>>${LOG_FILE}
   statusCheck $?
 fi
+
+ECHO "Uninstall Password Validation Plugin"
+echo "uninstall plugin validate_password;" |  mysql -uroot -pRoboShop@1 &>>$LOG_FILE
+statusCheck $?
 
 
 
