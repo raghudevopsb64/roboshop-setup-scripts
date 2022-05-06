@@ -3,26 +3,6 @@
 source components/common.sh
 checkRootUser
 
-
-#1. Start RabbitMQ
-#
-#```sql
-## systemctl enable rabbitmq-server
-## systemctl start rabbitmq-server
-#```
-#
-#RabbitMQ comes with a default username / password as `guest`/`guest`. But this user cannot be used to connect. Hence we need to create one user for the application.
-#
-#1. Create application user
-#
-#```sql
-## rabbitmqctl add_user roboshop roboshop123
-## rabbitmqctl set_user_tags roboshop administrator
-## rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
-#```
-#
-#Ref link : [https://www.rabbitmq.com/rabbitmqctl.8.html#User_Management](https://www.rabbitmq.com/rabbitmqctl.8.html#User_Management)
-
 ECHO "Setup YUM Repos"
 curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash &>>${LOG_FILE}
 statusCheck $?
