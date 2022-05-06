@@ -90,7 +90,7 @@ JAVA() {
 }
 
 PYTHON() {
-  ECHO "Installing Java & Maven"
+  ECHO "Installing Python"
   yum install python36 gcc python3-devel -y &>>${LOG_FILE}
   statusCheck $?
 
