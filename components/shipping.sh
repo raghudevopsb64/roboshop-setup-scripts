@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 
-echo shipping
+source components/common.sh
+checkRootUser
+COMPONENT=shipping
+
+JAVA
+

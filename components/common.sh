@@ -26,15 +26,7 @@ ECHO() {
   echo "$1"
 }
 
-NODEJS() {
-  ECHO "Configure NodeJS YUM Repos"
-  curl -sL https://rpm.nodesource.com/setup_lts.x | bash  &>>${LOG_FILE}
-  statusCheck $?
-
-  ECHO "Install NodeJS"
-  yum install nodejs  gcc-c++ -y &>>${LOG_FILE}
-  statusCheck $?
-
+APPLICATION_SETUP() {
   id roboshop &>>${LOG_FILE}
   if [ $? -ne 0 ]; then
     ECHO "Add Application User"
@@ -49,13 +41,11 @@ NODEJS() {
   ECHO "Extract Application Archive"
   cd /home/roboshop && rm -rf ${COMPONENT} &>>${LOG_FILE} && unzip /tmp/${COMPONENT}.zip &>>${LOG_FILE}  && mv ${COMPONENT}-main ${COMPONENT}
   statusCheck $?
+}
 
-  ECHO "Install NodeJS Modules"
-  cd /home/roboshop/${COMPONENT} && npm install &>>${LOG_FILE} && chown roboshop:roboshop /home/roboshop/${COMPONENT} -R
-  statusCheck $?
-
+SYSTEMD_SETUP() {
   ECHO "Update SystemD Configuration Files"
-  sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' -e 's/MONGO_ENDPOINT/mongodb.roboshop.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/' /home/roboshop/${COMPONENT}/systemd.service
+  sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' -e 's/MONGO_ENDPOINT/mongodb.roboshop.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/' -e 's/CARTENDPOINT/cart.roboshop.internal/' -e 's/DBHOST' /home/roboshop/${COMPONENT}/systemd.service
   statusCheck $?
 
   ECHO "Setup SystemD Service"
@@ -64,3 +54,35 @@ NODEJS() {
   statusCheck $?
 }
 
+
+NODEJS() {
+  ECHO "Configure NodeJS YUM Repos"
+  curl -sL https://rpm.nodesource.com/setup_lts.x | bash  &>>${LOG_FILE}
+  statusCheck $?
+
+  ECHO "Install NodeJS"
+  yum install nodejs  gcc-c++ -y &>>${LOG_FILE}
+  statusCheck $?
+
+  APPLICATION_SETUP
+
+  ECHO "Install NodeJS Modules"
+  cd /home/roboshop/${COMPONENT} && npm install &>>${LOG_FILE} && chown roboshop:roboshop /home/roboshop/${COMPONENT} -R
+  statusCheck $?
+
+  SYSTEMD_SETUP
+}
+
+JAVA() {
+  ECHO "Installing Java & Maven"
+  yum install maven -y &>>${LOG_FILE}
+  statusCheck $?
+
+  APPLICATION_SETUP
+
+  ECHO "Compile Maven Package"
+  cd /home/roboshop/${COMPONENT} && mvn clean package &>>${LOG_FILE} && mv target/${COMPONENT}-1.0.jar ${COMPONENT}.jar &>>${LOG_FILE}
+  statusCheck $?
+
+  #SYSTEMD_SETUP
+}
