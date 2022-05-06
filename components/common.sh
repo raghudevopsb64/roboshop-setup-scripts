@@ -96,7 +96,7 @@ PYTHON() {
 
   APPLICATION_SETUP
 
-  ECHO "Compile Maven Package"
+  ECHO "Install Python Dependencies"
   cd /home/roboshop/${COMPONENT} && pip3 install -r requirements.txt &>>${LOG_FILE}
   statusCheck $?
 
