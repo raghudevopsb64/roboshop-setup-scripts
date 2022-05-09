@@ -37,7 +37,6 @@ for component in catalogue user cart shipping payment ; do
   statusCheck $?
 done
 
-
 ECHO "Start Nginx Service"
 systemctl enable nginx &>>${LOG_FILE} && systemctl restart nginx &>>${LOG_FILE}
 statusCheck $?
