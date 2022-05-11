@@ -4,15 +4,6 @@ source components/common.sh
 checkRootUser
 
 
-# mysql -uroot -pRoboShop@1
-#uninstall plugin validate_password;
-# curl -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip"
-
-# cd /tmp
-# unzip mysql.zip
-# cd mysql-main
-# mysql -u root -pRoboShop@1 <shipping.sql
-
 ECHO "Setup MySQL Yum repo"
 curl -s -L -o /etc/yum.repos.d/mysql.repo https://raw.githubusercontent.com/roboshop-devops-project/mysql/main/mysql.repo &>>${LOG_FILE}
 statusCheck $?
